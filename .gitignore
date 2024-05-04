@@ -1,0 +1,14 @@
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
+/dist/
+/db.sqlite3
+/sphinx/_build/
+/sphinx/_static/
+/sphinx/_templates/
+__pycache__
+.DS_STORE
+.idea
+docs/_build

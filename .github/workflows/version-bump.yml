@@ -1,0 +1,27 @@
+name: Version Bump
+on:
+#  push:
+#    branches: ["main"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: Gr1N/setup-poetry@v8
+      - name: Bump version
+        id: version-bump
+        run: |
+          git config --global user.name 'cloud9-sh'
+          git config --global user.email 'dev@cloud9.sh'
+          
+          poetry version prerelease
+          echo "::set-output name=version::$(poetry version -s)"
+          
+          git add pyproject.toml
+          git commit -m "[skip ci]"
+          git push -u origin master

@@ -1,0 +1,36 @@
+name: Deploy Sphinx Docs
+on:
+  workflow_dispatch:
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: Gr1N/setup-poetry@v8
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Make HTML Docs
+        run: poetry run sphinx-build -b html . _build
+        working-directory: ./docs
+        env:
+          HTML_BASEURL: ${{ secrets.HTML_BASEURL }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.ROLE }}
+
+      - name: Deploy static site to S3 bucket
+        run: |
+          export package_name=$(grep 'name =' pyproject.toml | cut -d '=' -f2 | tr -d '"' | sed 's/ //g')
+          export package_version=$(grep "version" pyproject.toml | cut -d '=' -f2 | tr -d '"')
+          aws s3 sync ./docs/_build "s3://${{ secrets.BUCKET }}/python_packages/$package_name/$package_version"
+          aws s3 sync ./docs/_build s3://${{ secrets.BUCKET }}/python_packages/$package_name/latest
+          

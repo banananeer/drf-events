@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "drf-events"
+version = "0.1.1a6"
+description = "Package for emitting DRF events"
+authors = ["Cloud9 Development <dev@cloud9.sh>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+djangorestframework = "^3.15.1"
+Django = "^5.0.4"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+pytest-django = "^4.8.0"
+pytest-factoryboy = "^2.7.0"
+sphinx = "^7.3.7"
+furo = "^2024.1.29"
+moto = "^5.0.6"
+
+
+[tool.poetry.group.aws.dependencies]
+boto3 = "^1.34.93"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.extras]
+aws = ["boto3"]
