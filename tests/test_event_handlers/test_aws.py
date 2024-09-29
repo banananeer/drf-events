@@ -205,7 +205,7 @@ class TestEventBridgeEventHandlerManyToManyModel(ModelTest):
         event = event_handler.construct_event(
             view=self.view, serializer=serializer, instance=None
         )
-        detail = event_handler._convert_serializer_data_to_json_safe(serializer)
+        detail = event_handler._convert_dict_data_to_json_safe(serializer.data)
         self.assertEqual(json.dumps(detail), event.detail)
 
     def test_destroy_event(self):
