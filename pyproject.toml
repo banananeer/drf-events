@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "drf-events"
-version = "0.1.1a6"
+version = "0.1.1a7"
 description = "Package for emitting DRF events"
 authors = ["Cloud9 Development <dev@cloud9.sh>"]
 license = "MIT"
